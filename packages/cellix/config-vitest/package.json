@@ -1,0 +1,36 @@
+{
+	"name": "@cellix/config-vitest",
+	"version": "1.0.0",
+	"type": "module",
+	"files": [
+		"dist"
+	],
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"build": "tsgo --build",
+		"lint": "biome lint",
+		"format": "biome format --write",
+		"format:check": "biome format .",
+		"test": "vitest run --silent --reporter=dot",
+		"test:coverage": "vitest run --coverage --silent --reporter=dot",
+		"test:watch": "vitest",
+		"clean": "rimraf dist"
+	},
+	"dependencies": {
+		"@cellix/config-typescript": "workspace:*",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@vitest/coverage-istanbul": "catalog:",
+		"rimraf": "catalog:"
+	}
+}

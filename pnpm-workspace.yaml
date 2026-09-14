@@ -1,0 +1,53 @@
+packages:
+  - "apps/*"
+  - "packages/cellix/*"
+  - "packages/axc/*"
+  - "packages/axc-verification/*"
+
+engineStrict: true
+
+verifyDepsBeforeRun: false
+
+# Only native toolchain binaries may run install scripts. Application
+# dependencies must remain script-free.
+allowBuilds:
+  core-js: false
+  esbuild: true
+  rolldown: true
+
+catalog:
+  '@azure/functions': 4.11.0
+  '@cucumber/cucumber': 12.8.1
+  '@cucumber/messages': 32.3.1
+  '@serenity-js/assertions': 3.43.0
+  '@serenity-js/console-reporter': 3.43.0
+  '@serenity-js/core': 3.43.0
+  '@serenity-js/cucumber': 3.43.0
+  '@serenity-js/rest': 3.43.0
+  '@serenity-js/serenity-bdd': 3.43.0
+  '@types/node': ^24.3.0
+  '@vitest/coverage-istanbul': 4.1.10
+  archunit: ^2.1.63
+  hono: ^4.9.8
+  mongodb: 6.18.0
+  mongodb-memory-server-core: ^10.1.4
+  mongoose: 8.24.1
+  rimraf: 6.0.1
+  tsx: ^4.21.0
+  typescript: 6.0.3
+  "@typescript/native-preview": 7.0.0-dev.20260428.1
+  vitest: 4.1.10
+
+minimumReleaseAgeExclude:
+  - typescript
+  - '@typescript/native-preview'
+
+auditConfig:
+  ignoreGhsas:
+    # image-size <=2.0.2 (Docusaurus mdx-loader). Advertised patch 2.0.3 was never published to npm.
+    - GHSA-w3rx-r6r6-pgpr
+    - GHSA-5p2g-fcmc-qvqq
+
+overrides:
+  axios: ^1.18.0
+  serialize-javascript: 7.0.5

@@ -1,0 +1,87 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"globalPassThroughEnv": ["WORKTREE_NAME", "PORT", "NODE_ENV", "AXC_ENVIRONMENT"],
+	"futureFlags": {
+		"affectedUsingTaskInputs": true,
+		"watchUsingTaskInputs": true
+	},
+	"tasks": {
+		"build": {
+			"description": "Compiles TypeScript and bundles each package",
+			"dependsOn": ["^build"],
+			"inputs": [
+				"src/**/*.ts",
+				"src/**/*.tsx",
+				"src/**/*.mts",
+				"src/**/*.cts",
+				"src/**/*.js",
+				"src/**/*.jsx",
+				"src/**/*.mjs",
+				"src/**/*.cjs",
+				"src/**/*.json",
+				"tsconfig*.json",
+				"rolldown.config.ts",
+				"!coverage/**",
+				"!target/**",
+				"!tests/**",
+				"!**/*.test.*",
+				"!**/*.spec.*",
+				"!vitest*.config.*"
+			],
+			"outputs": ["dist/**", "build/**", "deploy/**", "*.tsbuildinfo"]
+		},
+		"test": {
+			"description": "Runs the default test suite for each package",
+			"dependsOn": ["^build", "@cellix/config-vitest#build"],
+			"inputs": ["$TURBO_DEFAULT$", "**/*.test.ts", "!coverage/**", "!target/**", "!dist/**", "!build/**", "!deploy/**"]
+		},
+		"test:arch": {
+			"description": "Runs architecture unit tests",
+			"dependsOn": ["build", "^build", "@cellix/config-vitest#build", "@cellix/archunit-tests#build"],
+			"inputs": ["$TURBO_DEFAULT$", "src/**/*.test.ts", "!coverage/**", "!target/**", "!dist/**", "!build/**", "!deploy/**"]
+		},
+		"test:acceptance": {
+			"description": "Runs Serenity/Cucumber acceptance tests",
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", "**/*.feature", "!coverage/**", "!target/**", "!dist/**", "!build/**", "!deploy/**"],
+			"outputs": ["target/**", "reports/**"],
+			"cache": false
+		},
+		"start": {
+			"description": "Starts long-running package start scripts",
+			"cache": false,
+			"persistent": true
+		},
+		"dev": {
+			"description": "Starts application packages in watch mode behind portless",
+			"dependsOn": ["^build"],
+			"cache": false,
+			"persistent": true
+		},
+		"dev:worktree": {
+			"description": "Starts dev servers with worktree-scoped portless hostnames",
+			"dependsOn": ["^build"],
+			"cache": false,
+			"persistent": true
+		},
+		"lint": {
+			"description": "Runs the Biome linter",
+			"inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/biome.json", "!coverage/**", "!target/**", "!dist/**", "!build/**", "!deploy/**"],
+			"outputs": []
+		},
+		"format": {
+			"description": "Formats source files with Biome",
+			"outputs": []
+		},
+		"format:check": {
+			"description": "Checks source formatting with Biome without writing changes",
+			"outputs": []
+		},
+		"clean": {
+			"description": "Removes generated build artifacts and caches",
+			"cache": false,
+			"outputs": []
+		}
+	}
+}

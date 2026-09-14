@@ -1,0 +1,17 @@
+node_modules
+.pnpm-store
+.DS_Store
+**/coverage
+lcov-report
+local.settings.json
+*.tsbuildinfo
+.turbo
+apps/api/deploy/
+**/*.zip
+**/target
+**/reports
+.docusaurus
+build
+.scannerwork
+.agents-work/
+.husky/_

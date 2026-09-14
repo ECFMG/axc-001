@@ -1,0 +1,55 @@
+{
+	"name": "agentCourses",
+	"version": "0.1.0",
+	"private": true,
+	"description": "agentCourses (axc) — quantify how harness engineering, agentic coding harnesses, and model selection affect software quality and delivery efficiency.",
+	"type": "module",
+	"license": "MIT",
+	"packageManager": "pnpm@11.9.0",
+	"engines": {
+		"node": ">=24"
+	},
+	"scripts": {
+		"prepare": "husky",
+		"dev": "pnpm proxy:stop && pnpm proxy:start && turbo watch dev --filter='./apps/*'",
+		"dev:worktree": "WORKTREE_NAME=$(basename \"$PWD\") pnpm proxy:ensure && WORKTREE_NAME=$(basename \"$PWD\") turbo watch dev:worktree --filter='./apps/*'",
+		"start": "turbo run start --filter=@apps/api",
+		"build": "turbo run build",
+		"test": "turbo run test test:acceptance",
+		"lint": "turbo run lint",
+		"format": "turbo run format",
+		"format:check": "turbo run format:check",
+		"format:staged": "biome check --write --staged --no-errors-on-unmatched",
+		"typecheck": "turbo run build --filter='./packages/*' --filter=@apps/api",
+		"knip": "knip --no-config-hints",
+		"analyze": "e18e-cli analyze --log-level error",
+		"audit": "(pnpm audit --audit-level=high --prod) && (pnpm audit --audit-level=critical --dev)",
+		"test:arch": "turbo run test:arch",
+		"test:acceptance": "turbo run test:acceptance --filter=@axc-verification/acceptance-api",
+		"proxy:stop": "pnpm exec portless proxy stop || true",
+		"proxy:start": "pnpm exec portless proxy start --https -p 1355",
+		"proxy:ensure": "pnpm exec portless proxy start --https -p 1355 || true",
+		"check:scripts": "node scripts/check-dependency-scripts.mjs",
+		"snyk": "node scripts/run-snyk.mjs",
+		"verify": "node scripts/verify.mjs",
+		"clean": "turbo run clean && rimraf dist node_modules **/coverage"
+	},
+	"lint-staged": {
+		"*": "biome check --write --no-errors-on-unmatched"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.4.10",
+		"@e18e/cli": "^0.7.0",
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"husky": "^9.1.7",
+		"knip": "^5.64.2",
+		"lint-staged": "^16.1.2",
+		"portless": "0.11.1",
+		"rimraf": "catalog:",
+		"ts-scope-trimmer-plugin": "^1.0.2",
+		"turbo": "2.9.18",
+		"typescript": "catalog:",
+		"vitest": "catalog:"
+	}
+}

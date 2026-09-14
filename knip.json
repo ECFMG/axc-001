@@ -1,0 +1,47 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"workspaces": {
+		"apps/api": {
+			"entry": ["src/index.ts", "src/start-http.ts", "start-dev.ts", "rolldown.config.ts", "scripts/zip-deploy.mjs"],
+			"project": ["src/**/*.ts", "start-*.ts", "scripts/**/*.mjs"]
+		},
+		"apps/docs": {
+			"entry": ["docusaurus.config.ts", "sidebars.ts", "start-dev.ts", "src/pages/index.tsx"],
+			"project": ["src/**/*.{ts,tsx,css}", "*.ts"]
+		},
+		"packages/cellix/*": {
+			"project": ["src/**/*.ts"]
+		},
+		"packages/axc/*": {
+			"entry": ["src/index.ts"],
+			"project": ["src/**/*.ts"]
+		},
+		"packages/axc-verification/archunit-tests": {
+			"entry": ["src/index.ts", "src/**/*.test.ts"],
+			"project": ["src/**/*.ts"]
+		},
+		"packages/axc-verification/acceptance-api": {
+			"entry": ["cucumber.js", "src/world.ts", "src/step-definitions/**/*.ts", "src/serenity.config.ts"],
+			"project": ["src/**/*.ts"],
+			"ignoreUnresolved": ["progress-bar", "summary"]
+		}
+	},
+	"ignoreWorkspaces": ["packages/cellix/config-typescript"],
+	"vitest": false,
+	"ignore": [
+		"scripts/**",
+		"**/dist/**",
+		"**/coverage/**",
+		".agents/**",
+		".claude/**",
+		".github/**",
+		".cursor/**",
+		"**/vitest.config.ts",
+		"**/vitest.arch.config.ts",
+		"**/*.test.ts",
+		"**/fixtures/**",
+		"packages/cellix/archunit-tests/src/validate-compiler-options.ts"
+	],
+	"ignoreDependencies": ["@types/*", "@e18e/cli", "ts-scope-trimmer-plugin", "@docusaurus/plugin-content-docs", "@cellix/config-vitest", "@vitest/coverage-istanbul", "archunit", "vitest", "@cucumber/messages", "mongodb"],
+	"ignoreBinaries": ["func", "snyk", "e18e-cli"]
+}
